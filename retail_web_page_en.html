@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Retail Customer Data Analysis Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #414141;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fafbff;
+            border-left: 6px solid #007bff;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #007bff;
+            transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .highlight:hover {
+            color: #ff4500;
+            transform: scale(1.1);
+        }
+
+        .section {
+            transition: all 0.3s ease-in-out;
+            /* Smooth transition for 0.3 seconds */
+        }
+
+        .section:hover {
+            background: #ffffff;
+            color: rgb(0, 0, 0);
+            transform: scale(1.02);
+            /* Zoom effect on hover */
+            box-shadow: 0 12px 12px rgba(0, 0, 0, 0.3);
+            /* Highlight with stronger shadow */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Retail Customer Data Analysis Report</h1>
+
+        <div class="section">
+            <h2>1. Introduction</h2>
+            <h3>1.1 Background</h3>
+            <p>In the retail industry, understanding customer purchasing patterns is key to increasing the effectiveness
+                of marketing and sales strategies. By analyzing customer data in depth, companies can identify consumer
+                behavior, segment markets, and design more targeted strategies to increase customer loyalty and business
+                profitability.</p>
+            <p>One approach used in customer data analysis is the RFM (Recency, Frequency, Monetary) method, which helps
+                classify customers based on when they last made a purchase (Recency), how often they transact
+                (Frequency), and the total value of their transactions (Monetary). In addition, clustering techniques
+                can be applied to group customers based on similarities in their purchasing patterns, so that companies
+                can develop more personalized marketing strategies. Furthermore, the calculation of Customer Lifetime
+                Value (CLV) allows companies to predict long-term customer value, helping in decision making regarding
+                marketing investments and customer retention.</p>
+            <p>In this project, retail sales data analysis is carried out by applying the RFM, clustering, and Customer
+                Lifetime Value methods to identify customer segmentation and optimize business strategies. The results
+                of data processing are stored in a SQL database to ensure data efficiency and regularity, and are
+                integrated with Tableau to facilitate data visualization and interpretation. With this approach,
+                companies can gain deeper insights into customer behavior and make data-driven decisions to improve
+                business competitiveness.</p>
+
+            <h3>1.2 Analysis Objectives</h3>
+            <ul>
+                <li>Identify customer purchasing patterns.</li>
+                <li>Segment customers based on transaction data.</li>
+                <li>Create an Artificial Neural Network (ANN) model to predict churn.</li>
+                <li>Create a dashboard for real-time sales monitoring</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. Data and Methods</h2>
+            <h3>2.1 Data Source</h3>
+            <p>The dataset used was obtained from a retail database that records customer transactions. This data
+                consists of 3 csv files:</p>
+            <h3>Customer-Details.csv</h3>
+            <p>This dataset contains customer information, including their demographic and transaction data.</p>
+            <ul>
+                <li><span class="highlight">City, State, Country</span>: Customer location.</li>
+                <li><span class="highlight">Age, Gender</span>: Customer demographic information.</li>
+                <li><span class="highlight">Income</span>: Customer income.</li>
+                <li><span class="highlight">Customer_Segment</span>: Customer segment.</li>
+                <li><span class="highlight">Date</span>: Transaction date.</li>
+                <li><span class="highlight">Total_Purchases, Amount</span>: Transaction amount and value.</li>
+                <li><span class="highlight">Shipping_Method, Payment_Method</span>: Shipping and payment methods.</li>
+                <li><span class="highlight">Ratings</span>: Customer ratings.</li>
+                <li><span class="highlight">Product_Category, Product_Type, Products</span>: Information about the
+                    products purchased.</li>
+            </ul>
+            <h3>Order-Details.csv</h3>
+            <p>Dataset
+                This records the transaction information made by the customer.</p>
+            <ul>
+                <li><span class="highlight">Transaction_ID</span>: Unique transaction ID.</li>
+                <li><span class="highlight">Customer_ID</span>: Customer ID.</li>
+                <li><span class="highlight">Date</span>: Transaction date.</li>
+                <li><span class="highlight">Total_Purchases, Amount</span>: Number of items and total transaction price.
+                </li>
+                <li><span class="highlight">Product_Id</span>: Product ID.</li>
+                <li><span class="highlight">Feedback</span>: Customer feedback.</li>
+                <li><span class="highlight">Shipping_Method, Payment_Method</span>: Shipping method and payment.</li>
+                <li><span class="highlight">Order_Status</span>: Order status.</li>
+                <li><span class="highlight">Ratings</span>: Customer ratings of the transaction.</li>
+            </ul>
+            <h3>Product-Details.csv</h3>
+            <p>This dataset contains information about available products.</p>
+            <ul>
+                <li><span class="highlight">Product_Id</span>: Unique product ID.</li>
+                <li><span class="highlight">Product_Category</span>: Product category.</li>
+                <li><span class="highlight">Product_Type</span>: Product type.</li>
+                <li><span class="highlight">Products</span>: Product name.</li>
+            </ul>
+
+            <p> The dataset for this experiment can be downloaded via the following link: </p><a
+                href="https://www.kaggle.com/datasets/manjirivadujkar/e-commerce-retail-dataset">Click here</a>
+            <p>
+
+            <h3>2.2 Data Processing Techniques</h3>
+            <img src="https://i.imgur.com/9Q3tAsc.png" alt="Image description"
+                style="max-width: 100%; height: auto; display: block; margin: auto;">
+            <p><span class="highlight">Kaggle</span> is used to get the dataset.</p>
+            <p><span class="highlight">Python</span> is used to clean and analyze the data with the Pandas and NumPy
+                libraries. The following are the stages of data analysis with python:</p>
+            <li>Data Wrangling.</li>
+            <li>Exploratory Data Analysis (EDA).</li>
+            <li>Data Preprocessing.</li>
+            <li>Model Building (ANN model).</li>
+            <li>Model Evaluation.</li>
+            </ul>
+            <p><span class="highlight">SQL</span> is used to extract and manage data from the database.</p>
+            <p><span class="highlight">Tableau</span> is used to visualize data and create dashboards.</p>
+        </div>
+
+        <div class="section">
+            <h2>3. Results and Findings</h2>
+            <h3>3.1 Purchase Patterns</h3>
+            <div class='tableauPlaceholder' id='viz1741009568803' style='position: relative'>
+                <noscript>
+                    <a href='#'><img alt='Dashboard 2'
+                            src='https://public.tableau.com/static/images/da/dashboard_retail_sales/Dashboard2/1_rss.png'
+                            style='border: none' /></a>
+                </noscript>
+                <object class='tableauViz' style='display:none;'>
+                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                    <param name='embed_code_version' value='3' />
+                    <param name='site_root' value='' />
+                    <param name='name' value='dashboard_retail_sales/Dashboard2' />
+                    <param name='tabs' value='no' />
+                    <param name='toolbar' value='yes' />
+                    <param name='static_image'
+                        value='https://public.tableau.com/static/images/da/dashboard_retail_sales/Dashboard2/1.png' />
+                    <param name='animate_transition' value='yes' />
+                    <param name='display_static_image' value='yes' />
+                    <param name='display_spinner' value='yes' />
+                    <param name='display_overlay' value='yes' />
+                    <param name='display_count' value='yes' />
+                    <param name='language' value='en-US' />
+                    <param name='filter' value='publish=yes' />
+                </object>
+            </div>
+            <script type='text/javascript'>
+                var divElement = document.getElementById('viz1741009568803');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+                if (divElement.offsetWidth > 800) {
+                    vizElement.style.width = '1000px';
+                    vizElement.style.height = '977px';
+                } else if (divElement.offsetWidth > 500) {
+                    vizElement.style.width = '1000px';
+                    vizElement.style.height = '977px';
+                } else {
+                    vizElement.style.width = '100%';
+                    vizElement.style.height = '2627px';
+                }
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+
+            <p>Based on data analysis, the product most purchased by customers is water, while the product with the
+                least number of purchases is bluestarAC. When viewed from the total purchases, male customers have a
+                higher transaction value compared to female customers. In terms of product categories, electronics and
+                clothing are the most frequently purchased categories, while the category with the largest total
+                transaction value (amount) is electronics. Geographically, the USA has the highest total transactions,
+                followed by the UK, while at the city level, Chicago recorded the largest number of transactions. In
+                addition, based on customer information, regular customers with medium income are the group with the
+                highest total transactions.</p>
+
+            <h3>3.2 Customer Segmentation</h3>
+            <ul>
+                <img src="https://i.imgur.com/RNa62rT.png" alt="Image description"
+                    style="max-width: 100%; height: auto; display: block; margin: auto;">
+                <li><span class="highlight">Low Spenders</span>: Customers with low transactions.</li>
+                <li><span class="highlight">Medium Spenders</span>: Customers with medium transactions.</li>
+                <li><span class="highlight">High Spenders</span>: Customers who often make large purchases.</li>
+                The image is only made based on the CLV value, to see the segmentation of RFM can be seen in the image
+                below.
+                <img src="https://i.imgur.com/clMjmkw.png" alt="Image description"
+                    style="max-width: 100%; height: auto; display: block; margin: auto;">
+                <li>high, indicating that they are customers who frequently transact and spend a lot of money. Best
+                    Customers (light blue) are also spread in areas with high Frequency and Monetary, indicating that
+                    they are loyal customers with frequent and high-value transactions. On the other hand, Churn Risk
+                    Customers (dark green) tend to have low Frequency and Monetary, meaning they rarely transact and are
+                    at risk of churn. Meanwhile, New Customers (light green) are more concentrated at the bottom with
+                    low Frequency but varying Monetary, indicating that they are new customers who have not made many
+                    transactions.</li>
+                <li>In general, the more often someone shops, the greater their total spending is seen from the positive
+                    trend between Frequency and Monetary. Big Spenders and Best Customers tend to be in areas with
+                    Frequency above 6 and Monetary more than 1000, while Churn Risk Customers and New Customers are
+                    mostly in areas with low Frequency (≤5) and small spending. This pattern shows the importance of
+                    customer retention strategies, especially to encourage new customers to make more transactions and
+                    reduce the risk of churn in customers with low activity.</li>
+            </ul>
+
+            <h3>3.3 Churn Prediction</h3>
+            <p>The main factors contributing to churn are low transaction frequency and decreasing purchase amounts from
+                month to month. Customers who have not made a purchase in the last 6 months have an 80% chance of churn.
+                In addition, there are general factors such as total amount and age that have an influence on churn. The
+                following is a correlation between customer segmentation parameters and churn.
+            <p>
+                <img src="https://i.imgur.com/ZUl7uHd.png" alt="Image description"
+                    style="max-width: 100%; height: auto; display: block; margin: auto;">
+            <p>the higher the correlation, the greater the effect on churn. In general, customers who are already
+                elderly will be easier to identify churn, besides the number of elderly customers in this retail is not
+                too many so that the elderly group can be categorized as churn
+            <p>
+                <img src="https://i.imgur.com/YdLV3ge.png" alt="Image description"
+                    style="max-width: 100%; height: auto; display: block; margin: auto;">
+                <img src="https://i.imgur.com/IaM8s4c.png" alt="Image description"
+                    style="max-width: 100%; height: auto; display: block; margin: auto;">
+            <h3>3.4 Evaluation of ANN Model for Churn Prediction</h3>
+            <img src="https://i.imgur.com/I49h0Nd.png" alt="Image description"
+                style="max-width: 100%; height: auto; display: block; margin: auto;">
+            <p>The training result model has Accuracy >95% </p>
+            <img src="https://i.imgur.com/rOqYTUL.png" alt="Image description"
+                style="max-width: 100%; height: auto; display: block; margin: auto;">
+            <li><span class="highlight">TN (True Negative)</span> = 43.109 → Customers who do not churn are predicted to
+                be true not to churn.</p>
+            <li><span class="highlight">FP (False Positive)</span> = 195 → Customers who did not churn but were
+                predicted to churn (model error).</p>
+            <li><span class="highlight">FN (False Negative)</span> = 232 → Customers who churn but were predicted not to
+                churn (model error).</p>
+            <li><span class="highlight">TP (True Positive)</span> = 15,560 → Customers who churn were predicted to
+                churn.</p>
+        </div>
+
+        <div class="section">
+            <h2>4. Conclusion and Recommendations</h2>
+            <h3>4.1 Conclusion</h3>
+            <p>Sales analysis shows that the product with the highest number of purchases is Water, with a total of 128
+                thousand transactions. The overall sales trend tends to be stagnant without any significant increase or
+                decrease. In terms of product categories, Electronics recorded the highest transaction value (amount).
+                In customer analysis, the Recency, Frequency, Monetary (RFM) method identifies that customers with the
+                highest Customer Lifetime Value (CLV) are the most valuable customers for the business. The top ten
+                customers have the highest transaction value, making them the primary target in customer retention
+                strategies. Meanwhile, in terms of location, the country with the largest total transactions is the
+                United States (US), while the city with the highest transactions was recorded in Chicago.</p>
+
+            <h3>4.2 Recommendations</h3>
+            <ul>
+                <li><span class="highlight">Weekday Promos</span>: Offer discounts or loyalty programs on weekdays to
+                    increase sales.</li>
+                <li><span class="highlight">Churn Retention Programs</span>: Send emails or notifications with special
+                    offers to customers at risk of churn.</li>
+                <li><span class="highlight">Differentiation Strategy</span>: Adjust marketing strategies based on
+                    customer segmentation, for example providing exclusive promos to high spenders.</li>
+                <li><span class="highlight">Best Customers</span>: Provide loyalty programs to keep them active.</li>
+                <li><span class="highlight">Big Spenders</span>: Upsell and cross-sell premium products.</li>
+                <li><span class="highlight">New Customers</span>: Drive more transactions with special new customer
+                    discounts.</li>
+                <li><span class="highlight">Churn Risk Customers</span>: Send special offers or retention emails to
+                    encourage them to shop again.</li>
+            </ul>
+            <h3>4.3. Analysis After Implementing Recommendations</h3>
+            <h4>Discount and Promotion Analysis</h4>
+            <ul>
+                <li>Compare sales before and after promotions to assess the effectiveness of discounts.</li>
+                <li>Evaluate whether discounts increase the number of transactions or only decrease profit margins.</li>
+                <li>Create customer segmentation based on response to promotions for a more effective marketing
+                    strategy.</li>
+            </ul>
+
+            <h4>Stock and Inventory Analysis</h4>
+            <ul>
+                <li>Identify products with high stock but low sales to avoid dead stock.</li>
+                <li>Calculate the stock turnover ratio to find out products that sell quickly and need to be restocked
+                    more often.</li>
+                <li>Conduct predictive analysis to estimate stock requirements based on sales trends.</li>
+            </ul>
+            <h4>Financial Performance</h4>
+            <ul>
+                <li>Calculate Gross Profit Margin and Net Profit Margin to determine the level of business
+                    profitability.</li>
+                <li>Analyze which products provide the highest profits, not only in terms of sales but also profit
+                    margins.</li>
+                <li>Visualize revenue and profitability trends on a monthly or quarterly basis to see business growth
+                    patterns.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>5. Attachment</h2>
+            <ul>
+                <li><a href="https://drive.google.com/drive/folders/1mm53teBO2k8cQmh5jpE0TcPjlP8mE61K?usp=drive_link">Data
+                        and Processing</a></li>
+                <li><a
+                        href="https://public.tableau.com/views/dashboard_retail_sales/Dashboard2?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
