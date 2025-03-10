@@ -18,4 +18,4 @@ This project provides valuable insights into customer behavior and helps busines
 
 
 ![Dashboard](https://github.com/user-attachments/assets/3195b6a9-770b-4a6d-84ec-18da4c470224)
-![Click Here]([https://public.tableau.com/views/dashboard_retail_sales/Dashboard2?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link])
+[Click Here]([https://public.tableau.com/views/dashboard_retail_sales/Dashboard2?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link])
