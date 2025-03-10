@@ -19,5 +19,5 @@ This project provides valuable insights into customer behavior and helps busines
 
 [![Dashboard](https://github.com/user-attachments/assets/3195b6a9-770b-4a6d-84ec-18da4c470224)](https://public.tableau.com/views/dashboard_retail_sales/Dashboard2)
 
-<a href="https://public.tableau.com/views/dashboard_retail_sales/Dashboard2" target="_blank">Click Here</a>
+<a href="https://sites.google.com/view/ardianportofolio/Retail-Sales-Analysis/retail-sales-analysis" target="_blank">Click Here</a>
 
